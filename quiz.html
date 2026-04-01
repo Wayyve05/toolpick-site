@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find My Perfect Tool – ToolPick</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Tool<span>Pick</span></a>
+  <div class="nav-links">
+    <a href="blog.html">Reviews</a>
+    <a href="blog.html#crm">CRM</a>
+    <a href="blog.html#invoicing">Invoicing</a>
+    <a href="blog.html#project">Project mgmt</a>
+  </div>
+  <a href="quiz.html" class="nav-cta">Find my tool</a>
+</nav>
+
+<div class="quiz-wrap">
+  <h1>Find your perfect tool</h1>
+  <p>Answer 4 quick questions and get a personalized recommendation based on your needs and budget.</p>
+
+  <div class="quiz-progress">
+    <div class="quiz-dot" id="dot-1"></div>
+    <div class="quiz-dot" id="dot-2"></div>
+    <div class="quiz-dot" id="dot-3"></div>
+    <div class="quiz-dot" id="dot-4"></div>
+  </div>
+
+  <!-- Step 1 -->
+  <div class="quiz-step active" id="step-1">
+    <div class="quiz-question">What do you mainly need a tool for?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="selectOption(1, 'invoicing')">🧾 Invoicing & getting paid</button>
+      <button class="quiz-option" onclick="selectOption(1, 'crm')">🤝 Managing clients & leads</button>
+      <button class="quiz-option" onclick="selectOption(1, 'project')">✅ Managing projects & tasks</button>
+      <button class="quiz-option" onclick="selectOption(1, 'all')">⚡ All of the above</button>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="quiz-step" id="step-2">
+    <div class="quiz-question">How many people will use the tool?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="selectOption(2, 'solo')">👤 Just me</button>
+      <button class="quiz-option" onclick="selectOption(2, 'small')">👥 2–5 people</button>
+      <button class="quiz-option" onclick="selectOption(2, 'medium')">👨‍👩‍👧‍👦 6–20 people</button>
+      <button class="quiz-option" onclick="selectOption(2, 'large')">🏢 20+ people</button>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="quiz-step" id="step-3">
+    <div class="quiz-question">What's your monthly budget per user?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="selectOption(3, 'free')">💚 Free only</button>
+      <button class="quiz-option" onclick="selectOption(3, 'low')">Under $10/month</button>
+      <button class="quiz-option" onclick="selectOption(3, 'mid')">$10–30/month</button>
+      <button class="quiz-option" onclick="selectOption(3, 'high')">$30+/month — I want the best</button>
+    </div>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="quiz-step" id="step-4">
+    <div class="quiz-question">How important is ease of use?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="selectOption(4, 'simple')">🎯 Very — I want something simple from day one</button>
+      <button class="quiz-option" onclick="selectOption(4, 'balanced')">⚖️ Balanced — some learning curve is fine</button>
+      <button class="quiz-option" onclick="selectOption(4, 'power')">🚀 Not important — I want maximum power</button>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div class="quiz-step" id="step-result">
+    <div class="quiz-result" id="quiz-result-box">
+      <div id="result-emoji" style="font-size:3rem;margin-bottom:1rem;">🎯</div>
+      <h2 id="result-title">Our recommendation</h2>
+      <p id="result-desc">Based on your answers, here's what we think will work best for you.</p>
+      <a id="result-link" href="blog.html" class="btn" style="margin-bottom:1rem;display:inline-block;">Read full review →</a>
+      <div style="margin-top:1rem;">
+        <button onclick="resetQuiz()" style="background:none;border:none;color:var(--green-dark);cursor:pointer;font-size:0.85rem;text-decoration:underline;">Start over</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Tool<span>Pick</span></div>
+  <div class="footer-links">
+    <a href="#">About</a>
+    <a href="blog.html">All reviews</a>
+    <a href="quiz.html">Find my tool</a>
+    <a href="#">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 ToolPick. All rights reserved.</div>
+</footer>
+
+<script>
+const answers = {};
+
+function selectOption(step, value) {
+  answers[step] = value;
+
+  // Highlight selected
+  const options = document.querySelectorAll(`#step-${step} .quiz-option`);
+  options.forEach(o => o.classList.remove('selected'));
+  event.target.classList.add('selected');
+
+  // Mark dot done
+  document.getElementById(`dot-${step}`).classList.add('done');
+
+  // Delay then go next
+  setTimeout(() => {
+    document.getElementById(`step-${step}`).classList.remove('active');
+    if (step < 4) {
+      document.getElementById(`step-${step + 1}`).classList.add('active');
+    } else {
+      showResult();
+    }
+  }, 400);
+}
+
+function showResult() {
+  const need = answers[1];
+  const size = answers[2];
+  const budget = answers[3];
+  const ease = answers[4];
+
+  let title, desc, link, emoji;
+
+  if (need === 'invoicing') {
+    title = 'FreshBooks';
+    desc = 'Based on your needs, FreshBooks is the perfect fit. It\'s the best invoicing tool for freelancers — simple, professional and packed with time-saving features.';
+    link = 'freshbooks.html';
+    emoji = '🧾';
+  } else if (need === 'crm') {
+    if (budget === 'free') {
+      title = 'HubSpot CRM Free';
+      desc = 'HubSpot CRM is the obvious choice for you. It\'s completely free, easy to set up and has everything you need to manage your clients and deals.';
+      link = 'hubspot.html';
+      emoji = '🤝';
+    } else {
+      title = 'HubSpot CRM';
+      desc = 'HubSpot CRM is the best fit for your situation. It scales from free to enterprise and has excellent features for managing clients and automating follow-ups.';
+      link = 'hubspot.html';
+      emoji = '🤝';
+    }
+  } else if (need === 'project') {
+    if (budget === 'free' || budget === 'low') {
+      title = 'ClickUp';
+      desc = 'ClickUp is the clear winner for you. It has the best free plan on the market and is packed with features that would cost 3x more elsewhere.';
+      link = 'clickup.html';
+      emoji = '✅';
+    } else if (ease === 'simple') {
+      title = 'Monday.com';
+      desc = 'Monday.com is the best fit for you. It has the most intuitive interface in project management and your budget allows for it.';
+      link = 'monday.html';
+      emoji = '📅';
+    } else {
+      title = 'ClickUp';
+      desc = 'ClickUp gives you maximum power for your budget. It has more features than any competitor at this price point.';
+      link = 'clickup.html';
+      emoji = '✅';
+    }
+  } else {
+    if (budget === 'free') {
+      title = 'HubSpot CRM + ClickUp';
+      desc = 'Use HubSpot CRM (free) for client management and ClickUp (free) for project management. Together they cover everything you need at zero cost.';
+      link = 'blog.html';
+      emoji = '⚡';
+    } else {
+      title = 'ClickUp';
+      desc = 'ClickUp is the best all-in-one tool for your situation. It covers tasks, docs, goals and time tracking — replacing multiple tools with one.';
+      link = 'clickup.html';
+      emoji = '✅';
+    }
+  }
+
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-title').textContent = `We recommend: ${title}`;
+  document.getElementById('result-desc').textContent = desc;
+  document.getElementById('result-link').href = link;
+
+  document.getElementById('step-result').classList.add('active');
+}
+
+function resetQuiz() {
+  Object.keys(answers).forEach(k => delete answers[k]);
+  document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.quiz-dot').forEach(d => d.classList.remove('done'));
+  document.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+  document.getElementById('step-1').classList.add('active');
+}
+</script>
+</body>
+</html>
