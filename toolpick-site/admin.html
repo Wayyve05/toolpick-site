@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin – ToolPick</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Tool<span>Pick</span></a>
+</nav>
+
+<!-- LOGIN -->
+<div class="admin-login" id="login-box">
+  <div style="font-size:2rem;margin-bottom:0.75rem;">🔐</div>
+  <h2>Admin access</h2>
+  <p>Enter your password to access the ToolPick back office.</p>
+  <input type="password" id="pwd-input" placeholder="Password" onkeydown="if(event.key==='Enter')checkPwd()">
+  <div id="pwd-error" style="color:#dc2626;font-size:0.82rem;margin-bottom:0.5rem;display:none;">Wrong password. Try again.</div>
+  <button onclick="checkPwd()">Login →</button>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-panel" id="admin-panel">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
+    <h2>📝 Write a new article</h2>
+    <a href="index.html" style="font-size:0.85rem;color:var(--muted);text-decoration:none;">← Back to site</a>
+  </div>
+
+  <div class="admin-notice" id="admin-notice">✅ Article generated! Copy the code below and save it as a new .html file in your site folder.</div>
+
+  <div class="admin-field">
+    <label>Tool name *</label>
+    <input type="text" id="tool-name" placeholder="e.g. Notion">
+  </div>
+  <div class="admin-field">
+    <label>Category *</label>
+    <select id="tool-cat">
+      <option value="Productivity">Productivity</option>
+      <option value="Invoicing">Invoicing</option>
+      <option value="CRM">CRM</option>
+      <option value="Project Management">Project Management</option>
+      <option value="Accounting">Accounting</option>
+      <option value="Automation">Automation</option>
+      <option value="Marketing">Marketing</option>
+    </select>
+  </div>
+  <div class="admin-field">
+    <label>Article title *</label>
+    <input type="text" id="tool-title" placeholder="e.g. Notion Review 2026: The Best Tool for Freelancers?">
+  </div>
+  <div class="admin-field">
+    <label>Starting price</label>
+    <input type="text" id="tool-price" placeholder="e.g. $10/month">
+  </div>
+  <div class="admin-field">
+    <label>Rating (out of 5)</label>
+    <select id="tool-rating">
+      <option value="5.0">5.0 ★★★★★</option>
+      <option value="4.8">4.8 ★★★★★</option>
+      <option value="4.5" selected>4.5 ★★★★☆</option>
+      <option value="4.0">4.0 ★★★★☆</option>
+      <option value="3.5">3.5 ★★★☆☆</option>
+    </select>
+  </div>
+  <div class="admin-field">
+    <label>Affiliate link (your tracked link)</label>
+    <input type="text" id="tool-link" placeholder="https://awin1.com/cread.php?...">
+  </div>
+  <div class="admin-field">
+    <label>Article content * (write freely — what is it, pricing, features, pros, cons, verdict)</label>
+    <textarea id="tool-content" placeholder="Write your full article here. Include sections like: What is [Tool]?, Pricing, Key Features, Pros, Cons, Who is it for?, Verdict.
+
+Example:
+What is Notion?
+Notion is an all-in-one workspace...
+
+Pricing:
+- Free plan available
+- Plus: $10/month
+- Business: $18/month
+
+Key Features:
+Pages and databases let you build anything...
+
+Pros:
+- Incredibly flexible
+- Beautiful interface
+- Strong AI features
+
+Cons:
+- Learning curve
+- Offline mode limited
+
+Verdict:
+Notion is the best tool for freelancers who want one place for everything..."></textarea>
+  </div>
+
+  <button class="admin-btn" onclick="generateArticle()">Generate article HTML →</button>
+
+  <div id="output-section" style="display:none;margin-top:2rem;">
+    <div class="admin-field">
+      <label>Generated HTML — copy this and save as <span id="filename-hint">tool.html</span> in your site folder</label>
+      <textarea id="output-code" style="min-height:400px;font-family:monospace;font-size:0.78rem;" readonly></textarea>
+    </div>
+    <button class="admin-btn" onclick="copyCode()">Copy HTML</button>
+    <span id="copy-confirm" style="margin-left:1rem;color:var(--green);font-size:0.85rem;display:none;">Copied!</span>
+  </div>
+</div>
+
+<script>
+const PASSWORD = 'toolpick2026';
+
+function checkPwd() {
+  const val = document.getElementById('pwd-input').value;
+  if (val === PASSWORD) {
+    document.getElementById('login-box').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+  } else {
+    document.getElementById('pwd-error').style.display = 'block';
+  }
+}
+
+function generateArticle() {
+  const name = document.getElementById('tool-name').value.trim();
+  const cat = document.getElementById('tool-cat').value;
+  const title = document.getElementById('tool-title').value.trim();
+  const price = document.getElementById('tool-price').value.trim() || 'See website';
+  const rating = document.getElementById('tool-rating').value;
+  const link = document.getElementById('tool-link').value.trim() || '#';
+  const content = document.getElementById('tool-content').value.trim();
+
+  if (!name || !title || !content) {
+    alert('Please fill in at least the tool name, title and content.');
+    return;
+  }
+
+  const stars = parseFloat(rating) >= 4.5 ? '★★★★★' : parseFloat(rating) >= 4 ? '★★★★☆' : '★★★☆☆';
+  const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+  const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  // Convert plain text to HTML paragraphs
+  const paragraphs = content.split('\n\n').map(p => {
+    p = p.trim();
+    if (!p) return '';
+    if (p.startsWith('Pros:') || p.startsWith('Cons:')) {
+      const lines = p.split('\n');
+      const header = lines[0].replace(':', '');
+      const items = lines.slice(1).filter(l => l.trim().startsWith('-')).map(l => `<li>${l.replace(/^-\s*/, '')}</li>`).join('');
+      const color = header === 'Pros' ? 'var(--green)' : '#dc2626';
+      return `<div style="margin:1rem 0;"><h3 style="color:${color};font-size:0.9rem;margin-bottom:0.5rem;">${header === 'Pros' ? '✓ ' : '✗ '}${header}</h3><ul style="margin-left:1.25rem;">${items}</ul></div>`;
+    }
+    if (p.includes(':') && p.split('\n')[0].endsWith(':')) {
+      const lines = p.split('\n');
+      const h = lines[0].replace(':', '');
+      const rest = lines.slice(1).join('<br>');
+      return `<h2>${h}</h2><p>${rest}</p>`;
+    }
+    if (p.startsWith('Verdict:') || p.startsWith('Verdict')) {
+      return `<div class="verdict-box"><p>⭐ <strong>Verdict:</strong> ${p.replace(/^Verdict:?\s*/, '')}</p></div>`;
+    }
+    return `<p>${p.replace(/\n/g, '<br>')}</p>`;
+  }).join('\n    ');
+
+  const filename = `${slug}.html`;
+  document.getElementById('filename-hint').textContent = filename;
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${title} – ToolPick</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Tool<span>Pick</span></a>
+  <div class="nav-links">
+    <a href="blog.html">Reviews</a>
+    <a href="blog.html#crm">CRM</a>
+    <a href="blog.html#invoicing">Invoicing</a>
+    <a href="blog.html#project">Project mgmt</a>
+  </div>
+  <a href="quiz.html" class="nav-cta">Find my tool</a>
+</nav>
+
+<div class="article-wrap">
+  <a href="blog.html" class="back-link">← Back to all reviews</a>
+
+  <div style="display:flex;gap:0.75rem;align-items:center;margin-bottom:1.25rem;">
+    <span class="pill pill-green">${cat}</span>
+  </div>
+
+  <h1>${title}</h1>
+
+  <div class="article-meta">
+    <span>📅 ${date}</span>
+    <span>⏱ 5 min read</span>
+    <span><span class="stars">${stars}</span> ${rating}/5</span>
+  </div>
+
+  <div class="article-body">
+    ${paragraphs}
+
+    <div class="rating">${stars} <strong>${rating} / 5</strong></div>
+
+    <a href="${link}" target="_blank" class="cta-link">Try ${name} →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Tool<span>Pick</span></div>
+  <div class="footer-links">
+    <a href="#">About</a>
+    <a href="blog.html">All reviews</a>
+    <a href="quiz.html">Find my tool</a>
+    <a href="#">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 ToolPick. All rights reserved.</div>
+</footer>
+
+</body>
+</html>`;
+
+  document.getElementById('output-code').value = html;
+  document.getElementById('output-section').style.display = 'block';
+  document.getElementById('admin-notice').style.display = 'block';
+  document.getElementById('output-section').scrollIntoView({ behavior: 'smooth' });
+}
+
+function copyCode() {
+  const textarea = document.getElementById('output-code');
+  textarea.select();
+  document.execCommand('copy');
+  document.getElementById('copy-confirm').style.display = 'inline';
+  setTimeout(() => document.getElementById('copy-confirm').style.display = 'none', 2000);
+}
+</script>
+
+</body>
+</html>
