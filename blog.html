@@ -17,17 +17,22 @@
     <a href="blog.html#crm">CRM</a>
     <a href="blog.html#invoicing">Invoicing</a>
     <a href="blog.html#project">Project mgmt</a>
+    <a href="compare.html">Compare</a>
   </div>
   <a href="quiz.html" class="nav-cta">Find my tool</a>
 </nav>
 
 <section class="section" style="padding-top:3rem;">
   <h1 style="font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;margin-bottom:0.5rem;">All reviews</h1>
-  <p style="color:var(--muted);margin-bottom:2.5rem;">Honest, in-depth reviews of the best SaaS tools for freelancers and small businesses.</p>
+  <p style="color:var(--muted);margin-bottom:2rem;">Honest, in-depth reviews of the best SaaS tools for freelancers and small businesses.</p>
 
-  <!-- FILTER BAR -->
+  <div style="position:relative;max-width:480px;margin-bottom:1.5rem;">
+    <input type="text" id="search-input" placeholder="Search reviews…" oninput="searchArticles()" style="width:100%;border:1px solid var(--border);border-radius:10px;padding:0.65rem 1rem 0.65rem 2.5rem;font-size:0.9rem;font-family:'Inter',sans-serif;outline:none;">
+    <span style="position:absolute;left:0.75rem;top:50%;transform:translateY(-50%);color:var(--muted);font-size:0.9rem;">🔍</span>
+  </div>
+
   <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2.5rem;">
-    <button onclick="filterCat('all')" id="btn-all" class="filter-btn active" style="background:var(--green);color:#fff;border:none;padding:0.4rem 1rem;border-radius:999px;font-size:0.82rem;cursor:pointer;font-family:'Inter',sans-serif;">All</button>
+    <button onclick="filterCat('all')" id="btn-all" class="filter-btn" style="background:var(--green);color:#fff;border:none;padding:0.4rem 1rem;border-radius:999px;font-size:0.82rem;cursor:pointer;font-family:'Inter',sans-serif;">All</button>
     <button onclick="filterCat('invoicing')" id="btn-invoicing" class="filter-btn" style="background:var(--bg2);color:var(--muted);border:0.5px solid var(--border);padding:0.4rem 1rem;border-radius:999px;font-size:0.82rem;cursor:pointer;font-family:'Inter',sans-serif;">🧾 Invoicing</button>
     <button onclick="filterCat('crm')" id="btn-crm" class="filter-btn" style="background:var(--bg2);color:var(--muted);border:0.5px solid var(--border);padding:0.4rem 1rem;border-radius:999px;font-size:0.82rem;cursor:pointer;font-family:'Inter',sans-serif;">🤝 CRM</button>
     <button onclick="filterCat('project')" id="btn-project" class="filter-btn" style="background:var(--bg2);color:var(--muted);border:0.5px solid var(--border);padding:0.4rem 1rem;border-radius:999px;font-size:0.82rem;cursor:pointer;font-family:'Inter',sans-serif;">✅ Project mgmt</button>
@@ -40,7 +45,7 @@
       <div class="blog-card-body">
         <div class="blog-card-cat">Invoicing</div>
         <div class="blog-card-title">FreshBooks Review 2026: Best Invoicing Software for Freelancers?</div>
-        <div class="blog-card-desc">We tested FreshBooks for 30 days. Here's our honest take on pricing, features and whether it's worth it.</div>
+        <div class="blog-card-desc">We tested FreshBooks for 30 days. Honest take on pricing, features and whether it's worth it.</div>
         <div class="blog-card-meta"><span>Apr 1, 2026</span><span><span class="stars">★★★★★</span> 4.8</span></div>
       </div>
     </a>
@@ -49,7 +54,7 @@
       <div class="blog-card-body">
         <div class="blog-card-cat">Project Management</div>
         <div class="blog-card-title">ClickUp Review 2026: Is It Really the Best Project Management Tool?</div>
-        <div class="blog-card-desc">ClickUp claims to replace every other tool. We tested it for 60 days with a real team to find out.</div>
+        <div class="blog-card-desc">We tested ClickUp for 60 days with a real team. Full honest review.</div>
         <div class="blog-card-meta"><span>Mar 15, 2026</span><span><span class="stars">★★★★★</span> 4.7</span></div>
       </div>
     </a>
@@ -58,7 +63,7 @@
       <div class="blog-card-body">
         <div class="blog-card-cat">CRM</div>
         <div class="blog-card-title">HubSpot CRM Review 2026: The Best Free CRM for Small Business?</div>
-        <div class="blog-card-desc">HubSpot CRM is free forever. But is it good enough for freelancers and small businesses?</div>
+        <div class="blog-card-desc">HubSpot CRM is free forever. But is it good enough for freelancers?</div>
         <div class="blog-card-meta"><span>Mar 1, 2026</span><span><span class="stars">★★★★☆</span> 4.5</span></div>
       </div>
     </a>
@@ -67,7 +72,7 @@
       <div class="blog-card-body">
         <div class="blog-card-cat">Project Management</div>
         <div class="blog-card-title">Monday.com Review 2026: Powerful But Is It Worth the Price?</div>
-        <div class="blog-card-desc">Monday.com has slick visuals and heavy marketing. But does it live up to the hype for small teams?</div>
+        <div class="blog-card-desc">Monday.com has slick visuals. But does it live up to the hype for small teams?</div>
         <div class="blog-card-meta"><span>Feb 15, 2026</span><span><span class="stars">★★★★☆</span> 4.3</span></div>
       </div>
     </a>
@@ -78,6 +83,15 @@
         <div class="blog-card-title">Notion Review 2026: The Best Tool for Freelancers Who Love Organization</div>
         <div class="blog-card-desc">Notion does everything — notes, databases, wikis, tasks. But is it right for your business?</div>
         <div class="blog-card-meta"><span>Feb 1, 2026</span><span><span class="stars">★★★★★</span> 4.6</span></div>
+      </div>
+    </a>
+    <a class="blog-card" href="zapier.html" data-cat="automation">
+      <div class="blog-card-img">⚡</div>
+      <div class="blog-card-body">
+        <div class="blog-card-cat">Automation</div>
+        <div class="blog-card-title">Zapier Review 2026: The Best Automation Tool for Freelancers?</div>
+        <div class="blog-card-desc">Zapier connects 6,000+ apps and automates repetitive tasks. Is it worth $19.99/month?</div>
+        <div class="blog-card-meta"><span>Apr 2, 2026</span><span><span class="stars">★★★★★</span> 4.6</span></div>
       </div>
     </a>
   </div>
@@ -96,14 +110,22 @@
   <div class="footer-links">
     <a href="#">About</a>
     <a href="blog.html">All reviews</a>
+    <a href="compare.html">Compare</a>
     <a href="quiz.html">Find my tool</a>
-    <a href="#">Contact</a>
   </div>
   <div class="footer-copy">© 2026 ToolPick. All rights reserved.</div>
 </footer>
 
 <script>
+function searchArticles() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  document.querySelectorAll('.blog-card').forEach(card => {
+    card.style.display = card.textContent.toLowerCase().includes(q) ? 'block' : 'none';
+  });
+}
+
 function filterCat(cat) {
+  document.getElementById('search-input').value = '';
   document.querySelectorAll('.filter-btn').forEach(b => {
     b.style.background = 'var(--bg2)';
     b.style.color = 'var(--muted)';
@@ -113,17 +135,11 @@ function filterCat(cat) {
   active.style.background = 'var(--green)';
   active.style.color = '#fff';
   active.style.border = 'none';
-
   document.querySelectorAll('.blog-card').forEach(card => {
-    if (cat === 'all' || card.dataset.cat === cat) {
-      card.style.display = 'block';
-    } else {
-      card.style.display = 'none';
-    }
+    card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'block' : 'none';
   });
 }
 
-// Handle hash on load
 const hash = window.location.hash.replace('#','');
 if (hash && document.getElementById('btn-' + hash)) filterCat(hash);
 </script>
